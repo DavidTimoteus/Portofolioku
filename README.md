@@ -62,21 +62,29 @@ Berbeda dengan portofolio template kartu generik (*AI-slop*), situs ini dirancan
 
 ## 🛠️ Menjalankan Secara Lokal
 
-Situs ini dibangun menggunakan standar web modern tanpa ketergantungan *build step* yang rumit (*Zero-Dependency Vanilla Architecture*):
+Situs ini dibangun menggunakan arsitektur web modern tanpa ketergantungan *build tool* atau kompilasi rumit (*Zero-Dependency Vanilla Architecture*), sehingga dapat dijalankan seketika di lingkungan mana pun:
 
+### 1. Kloning Repositori
 ```bash
-# Clone repositori
 git clone https://github.com/DavidTimoteus/Portofolioku.git
-
-# Masuk ke folder proyek
 cd Portofolioku
-
-# Jalankan lokal server (pilih salah satu)
-npx serve .
-# atau
-python -m http.server 5173
 ```
-Buka browser di `http://localhost:5173`.
+
+### 2. Jalankan Server Lokal
+Pilih salah satu metode yang paling nyaman di perangkat Anda:
+
+- **Menggunakan Node.js / npx:**
+  ```bash
+  npx serve -p 5173 .
+  ```
+- **Menggunakan Python 3:**
+  ```bash
+  python -m http.server 5173
+  ```
+- **Menggunakan VS Code Live Server:**
+  Cukup klik kanan pada berkas `index.html` lalu pilih **"Open with Live Server"**.
+
+Setelah server berjalan, akses portofolio melalui browser di [http://localhost:5173](http://localhost:5173). Fitur *Live GitHub Telemetry*, *Split-Stage Certificate Inspector*, dan *Bilingual ATS Resume Modal* akan langsung aktif secara penuh.
 
 ---
 
@@ -86,6 +94,6 @@ Saya terbuka untuk peluang karir penuh waktu (*Full-Time*), kontrak, maupun proy
 
 - 💼 **LinkedIn:** [linkedin.com/in/davidtimoteus](https://www.linkedin.com/in/davidtimoteus)
 - 🐙 **GitHub:** [github.com/DavidTimoteus](https://github.com/DavidTimoteus)
-- ✉️ **Email:** [Dtimoteus69@gmail.com](mailto:Dtimoteus69@gmail.com)
+- ✉️ **Email:** [detimotea@gmail.com](mailto:detimotea@gmail.com)
 - 📱 **WhatsApp / Telp:** [+62 895-3184-0050](https://wa.me/6289531840050)
 - 📍 **Domisili:** Sumenep & Malang, Jawa Timur, Indonesia

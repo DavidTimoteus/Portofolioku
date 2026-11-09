@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://davidtimoteus.github.io/Portofolioku/sitemap.xml
