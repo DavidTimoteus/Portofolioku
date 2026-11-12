@@ -26,13 +26,16 @@
   <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="assets/css/main.css" />
 </head>
 <body>
   <!-- Top Scroll Progress Line -->
   <div class="scroll-line" id="scroll-line" aria-hidden="true"></div>
+
+  <!-- Tactile Studio Film Grain Overlay (Grainient Texture) -->
+  <div class="grain-overlay" aria-hidden="true"></div>
 
   <!-- Custom Magnetic Cursor (Desktop Only) -->
   <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
@@ -67,6 +70,11 @@
       </nav>
 
       <div class="topbar-actions">
+        <button type="button" class="action-btn cmd-btn-desktop" id="cmd-trigger-btn" title="Buka Navigasi Cepat (Ctrl + K)">
+          <span>Menu Cepat</span>
+          <kbd class="kbd-key">⌘K</kbd>
+        </button>
+
         <button type="button" class="action-btn" id="theme-switch-btn" title="Ganti Karakter Warna Crimson">
           <span aria-hidden="true" style="color: var(--red-bright);">●</span>
           <span class="theme-text" id="theme-label">Obsidian Crimson</span>
@@ -99,20 +107,20 @@
     <section class="hero">
       <div class="hero-grid">
         <!-- Left Column: Editorial Headline, LinkedIn Bio & Telemetry Ledger -->
-        <div class="hero-main">
+        <div class="hero-main spotlight-surface">
           <div>
             <div class="eyebrow-row" data-reveal>
               <span class="live-pill">
                 <span class="live-dot"></span>
                 Open to Full-Time Roles &amp; Projects
               </span>
-              <span class="eyebrow-loc">SUMENEP &amp; MALANG, JAWA TIMUR · ID</span>
+              <span class="eyebrow-loc">SUMENEP &amp; MALANG, ID · <strong id="wib-clock-hero" style="color: var(--ink);">WIB</strong></span>
             </div>
 
             <h1 class="hero-display" data-reveal>
-              DAVID TIMOTEUS
-              <span class="red-stroke">ARYA BAKTI P.</span>
-              <span class="role-line">Full-Stack Web &amp; Mobile Developer — BNSP Certified</span>
+              <span class="line-mask" data-delay="1"><span>DAVID TIMOTEUS</span></span>
+              <span class="line-mask" data-delay="2"><span><span class="red-stroke">ARYA BAKTI</span> <em class="serif-italic">Pamungkas.</em></span></span>
+              <span class="line-mask" data-delay="3"><span class="role-line"><em class="serif-italic">Full-Stack Web &amp; Mobile</em> Engineer <span class="role-sep">·</span> BNSP Certified</span></span>
             </h1>
 
             <p class="hero-narrative" data-reveal>
@@ -134,22 +142,22 @@
             </div>
           </div>
 
-          <!-- 4-Column Architectural Stat Strip -->
+          <!-- 4-Column Architectural Stat Strip with Count-Up Telemetry -->
           <div class="hero-ledger" data-reveal>
             <div class="ledger-stat">
-              <div class="ledger-val">3.82 <small>/ 4.00</small></div>
+              <div class="ledger-val"><span data-count-target="3.82" data-count-decimals="2">3.82</span> <small>/ 4.00</small></div>
               <div class="ledger-lbl">IPK D-IV Polinema</div>
             </div>
             <div class="ledger-stat">
-              <div class="ledger-val">1.336 <small>Jam</small></div>
+              <div class="ledger-val"><span data-count-target="1336" data-count-sep=".">1.336</span> <small>Jam</small></div>
               <div class="ledger-lbl">MSIB 900j + VSGA 436j</div>
             </div>
             <div class="ledger-stat">
-              <div class="ledger-val">TOP 2 <small>2024</small></div>
+              <div class="ledger-val">TOP <span data-count-target="2">2</span> <small>2024</small></div>
               <div class="ledger-lbl">Capstone VSGA Kominfo</div>
             </div>
             <div class="ledger-stat">
-              <div class="ledger-val">600 <small>ETS</small></div>
+              <div class="ledger-val"><span data-count-target="600">600</span> <small>ETS</small></div>
               <div class="ledger-lbl">Skor Resmi TOEIC</div>
             </div>
           </div>
@@ -158,6 +166,10 @@
         <!-- Right Column: Studio Editorial Portrait & Verified Telemetry -->
         <aside class="hero-aside" data-reveal>
           <div class="portrait-showcase">
+            <div class="portrait-coords" aria-hidden="true">
+              <span>+ DT // STUDIO_ID</span>
+              <span>POS 01 // 2026</span>
+            </div>
             <picture>
               <source srcset="assets/img/profile-editorial.webp" type="image/webp" />
               <img
@@ -228,7 +240,7 @@
       <div class="ed-section-head" data-reveal>
         <div class="ed-index">01 / REKAM JEJAK</div>
         <div>
-          <h2 class="ed-title">Pengalaman Industri &amp; Pendidikan Akademik</h2>
+          <h2 class="ed-title">Pengalaman Industri &amp; <em class="serif-italic">Pendidikan Akademik</em></h2>
           <p class="ed-sub">
             Disusun dengan gaya deskripsi LinkedIn berbasis kontribusi nyata di tempat kerja, arsitektur teknis yang diterapkan, dan dampak terukur pada sistem produksi.
           </p>
@@ -240,7 +252,7 @@
       </div>
 
       <!-- Row 1: PT Inline Indonesia Group -->
-      <article class="ledger-row" data-reveal>
+      <article class="ledger-row spotlight-surface" data-reveal>
         <div class="ledger-period">
           <strong>AGU 2024 – DES 2024</strong>
           Jakarta Selatan, Indonesia<br />
@@ -271,7 +283,7 @@
       </article>
 
       <!-- Row 2: VSGA Digital Talent Scholarship -->
-      <article class="ledger-row" data-reveal>
+      <article class="ledger-row spotlight-surface" data-reveal>
         <div class="ledger-period">
           <strong>JUL 2024 – DES 2024</strong>
           Kominfo RI × Polinema<br />
@@ -302,7 +314,7 @@
       </article>
 
       <!-- Row 3: MSIB Batch 6 Gamelab.ID -->
-      <article class="ledger-row" data-reveal>
+      <article class="ledger-row spotlight-surface" data-reveal>
         <div class="ledger-period">
           <strong>FEB 2024 – JUN 2024</strong>
           Salatiga, Jawa Tengah<br />
@@ -330,7 +342,7 @@
       </article>
 
       <!-- Row 4: Politeknik Negeri Malang & SMAN 1 Sumenep -->
-      <article class="ledger-row" data-reveal>
+      <article class="ledger-row spotlight-surface" data-reveal>
         <div class="ledger-period">
           <strong>AGU 2021 – 2025/2026</strong>
           Malang &amp; Sumenep<br />
@@ -367,9 +379,9 @@
       <div class="ed-section-head" data-reveal>
         <div class="ed-index">02 / STUDI KASUS</div>
         <div>
-          <h2 class="ed-title">Indeks Arsitektur Proyek &amp; Repositori</h2>
+          <h2 class="ed-title">Indeks Arsitektur Proyek &amp; <em class="serif-italic">Repositori</em></h2>
           <p class="ed-sub">
-            Klik baris proyek di bawah untuk membuka detail permasalahan bisnis, arsitektur teknis yang dibangun, dan metrik pengujiannya.
+            Filter berdasarkan spesialisasi atau klik baris proyek di bawah untuk membuka detail permasalahan bisnis, arsitektur teknis yang dibangun, dan metrik pengujiannya.
           </p>
         </div>
         <a href="https://github.com/DavidTimoteus?tab=repositories" target="_blank" rel="noopener" class="action-btn">
@@ -378,11 +390,26 @@
         </a>
       </div>
 
+      <!-- Interactive Sliding Filter Puck (60fps.design / Transitions.dev) -->
+      <div class="project-filter-bar" data-reveal>
+        <div class="filter-pills" id="project-filter-pills" role="tablist" aria-label="Filter Kategori Proyek">
+          <div class="filter-glider" id="filter-glider" aria-hidden="true"></div>
+          <button type="button" class="filter-pill-btn is-active" data-filter="all" role="tab" aria-selected="true">Semua Studi Kasus (06)</button>
+          <button type="button" class="filter-pill-btn" data-filter="web" role="tab" aria-selected="false">Full-Stack Web (04)</button>
+          <button type="button" class="filter-pill-btn" data-filter="mobile" role="tab" aria-selected="false">Mobile &amp; ERP (01)</button>
+          <button type="button" class="filter-pill-btn" data-filter="ai" role="tab" aria-selected="false">Offline-First &amp; AI (02)</button>
+        </div>
+        <span class="tag-mono" id="filter-result-count">Menampilkan 6 Proyek</span>
+      </div>
+
       <!-- Project 01: Motaris (Open by Default) -->
-      <article class="project-accordion-item is-open" data-reveal>
+      <article class="project-accordion-item is-open" data-cats="web" data-reveal>
         <button type="button" class="project-trigger" aria-expanded="true">
           <span class="proj-num">01</span>
-          <span class="proj-heading">Motaris — Sistem Informasi Operasional Bengkel &amp; POS Multi-Tier</span>
+          <span class="proj-heading">
+            Motaris — Sistem Informasi Operasional Bengkel &amp; POS Multi-Tier
+            <span class="proj-kpi-badge">UAT 96,6% · 57 PHPUnit</span>
+          </span>
           <span class="proj-context">Laravel 13 · MySQL 8 · Tailwind v4</span>
           <span class="proj-year">2025 – 2026</span>
           <span class="proj-icon" aria-hidden="true">+</span>
@@ -426,10 +453,13 @@
       </article>
 
       <!-- Project 02: LMS PKPA — PT Inline Indonesia Group -->
-      <article class="project-accordion-item" data-reveal>
+      <article class="project-accordion-item" data-cats="web" data-reveal>
         <button type="button" class="project-trigger" aria-expanded="false">
           <span class="proj-num">02</span>
-          <span class="proj-heading">Learning Management System (LMS) PKPA — PT Inline Indonesia Group</span>
+          <span class="proj-heading">
+            Learning Management System (LMS) PKPA — PT Inline Indonesia Group
+            <span class="proj-kpi-badge">Next.js SSR · CDN</span>
+          </span>
           <span class="proj-context">Next.js · Redux · Laravel REST API</span>
           <span class="proj-year">Okt – Des 2024</span>
           <span class="proj-icon" aria-hidden="true">+</span>
@@ -467,10 +497,13 @@
       </article>
 
       <!-- Project 03: PWA-MyDuit & Duit Tracker -->
-      <article class="project-accordion-item" data-reveal>
+      <article class="project-accordion-item" data-cats="web ai" data-reveal>
         <button type="button" class="project-trigger" aria-expanded="false">
           <span class="proj-num">03</span>
-          <span class="proj-heading">PWA-MyDuit &amp; Duit Tracker — Manajemen Keuangan &amp; AI Receipt OCR</span>
+          <span class="proj-heading">
+            PWA-MyDuit &amp; Duit Tracker — Manajemen Keuangan &amp; AI Receipt OCR
+            <span class="proj-kpi-badge">Skor 90/100 · Gemini AI</span>
+          </span>
           <span class="proj-context">Laravel · PWA Offline-First · Gemini AI</span>
           <span class="proj-year">2024 – 2025</span>
           <span class="proj-icon" aria-hidden="true">+</span>
@@ -510,10 +543,13 @@
       </article>
 
       <!-- Project 04: Route Wise -->
-      <article class="project-accordion-item" data-reveal>
+      <article class="project-accordion-item" data-cats="mobile" data-reveal>
         <button type="button" class="project-trigger" aria-expanded="false">
           <span class="proj-num">04</span>
-          <span class="proj-heading">Route Wise — Aplikasi Mobile Rekomendasi Rute Terintegrasi Odoo ERP</span>
+          <span class="proj-heading">
+            Route Wise — Aplikasi Mobile Rekomendasi Rute Terintegrasi Odoo ERP
+            <span class="proj-kpi-badge">Flutter · Odoo ERP</span>
+          </span>
           <span class="proj-context">Flutter · Dart · Odoo ERP · Figma</span>
           <span class="proj-year">Agu – Des 2024</span>
           <span class="proj-icon" aria-hidden="true">+</span>
@@ -547,10 +583,13 @@
       </article>
 
       <!-- Project 05: Jhâr-Ajhârân -->
-      <article class="project-accordion-item" data-reveal>
+      <article class="project-accordion-item" data-cats="ai" data-reveal>
         <button type="button" class="project-trigger" aria-expanded="false">
           <span class="proj-num">05</span>
-          <span class="proj-heading">Jhâr-Ajhârân — Simulator Ujian CAT CPNS &amp; BUMN Offline-First</span>
+          <span class="proj-heading">
+            Jhâr-Ajhârân — Simulator Ujian CAT CPNS &amp; BUMN Offline-First
+            <span class="proj-kpi-badge">Offline PWA Engine</span>
+          </span>
           <span class="proj-context">PWA · JavaScript · Python Automation</span>
           <span class="proj-year">2025</span>
           <span class="proj-icon" aria-hidden="true">+</span>
@@ -590,10 +629,13 @@
       </article>
 
       <!-- Project 06: Zora Stamp & E-Poli -->
-      <article class="project-accordion-item" data-reveal>
+      <article class="project-accordion-item" data-cats="web" data-reveal>
         <button type="button" class="project-trigger" aria-expanded="false">
           <span class="proj-num">06</span>
-          <span class="proj-heading">E-Poli (Sistem Informasi Poliklinik) &amp; Zora Stamp Digital Printing</span>
+          <span class="proj-heading">
+            E-Poli (Sistem Informasi Poliklinik) &amp; Zora Stamp Digital Printing
+            <span class="proj-kpi-badge">Team Lead · Waterfall</span>
+          </span>
           <span class="proj-context">Laravel · MySQL · SASS · Waterfall SDLC</span>
           <span class="proj-year">2023 – 2024</span>
           <span class="proj-icon" aria-hidden="true">+</span>
@@ -656,7 +698,7 @@
       <div class="ed-section-head" data-reveal>
         <div class="ed-index">03 / BUKTI KOMPETENSI</div>
         <div>
-          <h2 class="ed-title">Arsip Sertifikat Resmi &amp; Transkrip Nilai</h2>
+          <h2 class="ed-title">Arsip Sertifikat Resmi &amp; <em class="serif-italic">Transkrip Nilai</em></h2>
           <p class="ed-sub">
             Pilih dokumen pada daftar di sebelah kiri untuk menginspeksi sertifikat asli, nomor registrasi negara, serta transkrip nilai di panggung pratinjau. Klik gambar dokumen untuk memperbesar layar penuh.
           </p>
@@ -722,7 +764,7 @@
         </div>
 
         <!-- Right Column: Live Document Stage -->
-        <div class="cert-stage" id="cert-stage">
+        <div class="cert-stage spotlight-surface" id="cert-stage">
           <div class="cert-stage-top">
             <div>
               <div class="cert-stage-issuer" id="cert-stage-issuer">BADAN NASIONAL SERTIFIKASI PROFESI (BNSP) · LSP TEKNOLOGI DIGITAL</div>
@@ -764,7 +806,7 @@
       <div class="ed-section-head" data-reveal>
         <div class="ed-index">04 / SPESIFIKASI TEKNIS</div>
         <div>
-          <h2 class="ed-title">Matriks Keahlian &amp; Standar SKKNI BNSP</h2>
+          <h2 class="ed-title">Matriks Keahlian &amp; <em class="serif-italic">Standar SKKNI BNSP</em></h2>
           <p class="ed-sub">
             Pemetaan kapabilitas rekayasa perangkat lunak berdasarkan unit kompetensi resmi negara dan teknologi yang digunakan pada proyek nyata.
           </p>
@@ -883,11 +925,11 @@
          05. CONTACT & ATS RESUME FAST-TRACK LEDGER
          ====================================================================== -->
     <section class="ed-section" id="kontak">
-      <div class="contact-ledger" data-reveal>
+      <div class="contact-ledger spotlight-surface" data-reveal>
         <div class="contact-left">
           <div class="ed-index" style="margin-bottom: 0.75rem;">05 / KOLABORASI &amp; REKRUTMEN</div>
           <h2 class="ed-title" style="margin-bottom: 1rem;">
-            Siap Berkontribusi pada Tim Engineering Anda.
+            Siap Berkontribusi pada <em class="serif-italic">Tim Engineering</em> Anda.
           </h2>
           <p class="ed-sub" style="margin-bottom: 2rem;">
             Terbuka untuk posisi <strong>Full-Stack Web Developer, Front-End Developer (Next.js/React), Back-End Developer (Laravel), maupun Mobile Developer (Flutter)</strong>—baik <em>on-site</em>, <em>hybrid</em>, maupun <em>remote</em>.
@@ -941,8 +983,68 @@
     </section>
   </main>
 
-  <footer style="padding: 1.75rem var(--pad-x); text-align: center; font-family: var(--font-mono); font-size: 0.74rem; color: var(--ink-3);">
-    © 2026 DAVID TIMOTEUS ARYA BAKTI PAMUNGKAS · DIRANCANG DENGAN ARSITEKTUR SWISS HAIRLINE GRID &amp; STANDAR CV ATS
+  <!-- ========================================================================
+       EDITORIAL ARCHITECTURAL MEGA FOOTER (Footer.design)
+       ======================================================================== -->
+  <footer class="ed-footer">
+    <div class="ed-footer-top">
+      <div>
+        <div class="ed-index" style="margin-bottom: 0.65rem;">FULL-STACK WEB &amp; MOBILE DEVELOPER</div>
+        <div class="footer-wordmark">
+          DAVID <em class="serif-italic">Timoteus.</em>
+        </div>
+      </div>
+
+      <div class="footer-telemetry">
+        <div>SUMENEP &amp; MALANG · JAWA TIMUR (GMT+7)</div>
+        <div class="footer-clock" id="wib-clock-footer">--:--:-- WIB</div>
+      </div>
+    </div>
+
+    <div class="ed-footer-grid">
+      <div>
+        <div class="footer-col-title">Ringkasan Singkat</div>
+        <p style="font-size: 0.88rem; color: var(--ink-2); max-width: 36ch; line-height: 1.65;">
+          Lulusan D-IV Sistem Informasi Bisnis Politeknik Negeri Malang (IPK 3.82/4.00) &amp; tersertifikasi BNSP Junior Web Developer. Fokus pada sistem bisnis terukur dengan Laravel, Next.js, Flutter, dan MySQL.
+        </p>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Navigasi Indeks</div>
+        <ul class="footer-nav-list">
+          <li><a href="#pengalaman">01. Pengalaman &amp; Pendidikan</a></li>
+          <li><a href="#proyek">02. Indeks Studi Kasus</a></li>
+          <li><a href="#sertifikasi">03. Arsip Sertifikat Negara</a></li>
+          <li><a href="#keahlian">04. Matriks SKKNI &amp; Stack</a></li>
+          <li><a href="#kontak">05. Kolaborasi &amp; Kontak</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Kredensial &amp; Profil</div>
+        <ul class="footer-nav-list">
+          <li><a href="https://www.linkedin.com/in/davidtimoteus" target="_blank" rel="noopener">LinkedIn (@davidtimoteus) ↗</a></li>
+          <li><a href="https://github.com/DavidTimoteus" target="_blank" rel="noopener">GitHub (@DavidTimoteus) ↗</a></li>
+          <li><button type="button" data-open-ats>Buka Pratinjau CV ATS ↗</button></li>
+          <li><a href="assets/docs/David_Timoteus_CV_ATS.pdf" download="David_Timoteus_CV_ATS.pdf">Unduh CV ATS Asli (PDF) ↓</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Kontrol &amp; Pintasan</div>
+        <ul class="footer-nav-list">
+          <li><button type="button" id="footer-cmd-btn">Command Palette (⌘K)</button></li>
+          <li><button type="button" data-copy="detimotea@gmail.com">Salin Email: detimotea@gmail.com</button></li>
+          <li><a href="https://wa.me/6289531840050" target="_blank" rel="noopener">WhatsApp: +62 895-3184-0050 ↗</a></li>
+          <li><a href="#top">Kembali ke Atas ↑</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ed-footer-bottom">
+      <span>© 2026 DAVID TIMOTEUS ARYA BAKTI PAMUNGKAS · ALL RIGHTS RESERVED</span>
+      <span>ARCHITECTURAL SWISS HAIRLINE GRID · OBSIDIAN CRIMSON</span>
+    </div>
   </footer>
 
   <!-- ========================================================================
@@ -1271,6 +1373,26 @@
       <div style="background: #050405; padding: 0.75rem; border: 1px solid var(--line);">
         <img id="zoom-modal-img" src="assets/img/certs/bnsp-jwd.webp" alt="Dokumen Sertifikat Resolusi Penuh" style="max-height: 78vh; width: auto; margin-inline: auto;" />
       </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       COMMAND PALETTE MODAL (⌘K / Ctrl+K)
+       ======================================================================== -->
+  <div class="modal-overlay" id="cmd-modal-overlay" role="dialog" aria-modal="true" aria-label="Menu Navigasi Cepat Command Palette">
+    <div class="cmd-sheet">
+      <div class="cmd-input-wrap">
+        <span style="color: var(--red-bright); font-family: var(--font-mono); font-weight: 700;">&gt;_</span>
+        <input
+          type="text"
+          id="cmd-search-input"
+          class="cmd-input"
+          placeholder="Cari aksi cepat: CV ATS, Motaris, Sertifikat BNSP, Tema, Email..."
+          autocomplete="off"
+        />
+        <button type="button" class="action-btn" id="cmd-close-btn" style="padding: 0.25rem 0.55rem; font-size: 0.68rem;">ESC</button>
+      </div>
+      <div class="cmd-list" id="cmd-list" role="listbox"></div>
     </div>
   </div>
 

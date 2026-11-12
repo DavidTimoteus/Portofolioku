@@ -16,6 +16,7 @@
   /* ==========================================================================
      1. SCROLL PROGRESS LINE & ACTIVE SECTION SCROLL-SPY
      ========================================================================== */
+  const topbar = document.querySelector('.topbar');
   const scrollLine = document.getElementById('scroll-line');
   const navLinks = Array.from(document.querySelectorAll('.nav-link'));
   const sections = navLinks
@@ -27,6 +28,9 @@
 
   function onScroll() {
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    if (topbar) {
+      topbar.classList.toggle('is-scrolled', scrollTop > 48);
+    }
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
     if (scrollLine && docHeight > 0) {
       const pct = Math.min(100, Math.max(0, (scrollTop / docHeight) * 100));
@@ -452,7 +456,7 @@
       .slice(0, 6)
       .map(
         (r) => `
-        <a href="${r.html_url}" target="_blank" rel="noopener" class="repo-cell">
+        <a href="${r.html_url}" target="_blank" rel="noopener" class="repo-cell spotlight-surface">
           <div>
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.45rem;">
               <strong style="font-family: var(--font-display); font-size: 1.02rem; color: var(--ink);">${r.name}</strong>
@@ -548,4 +552,361 @@
   } else {
     revealEls.forEach((el) => el.classList.add('is-visible'));
   }
+
+  /* ==========================================================================
+     10. AWARD WEB CRAFT MOTION ENGINE
+     - Cursor-Tracked Surface Spotlights (Aceternity / HorizonX)
+     - Masked Hero Typography Reveal & Animated Telemetry Count-Up (60fps.design)
+     - Sliding Project Filter Glider (Transitions.dev)
+     - Live WIB Real-Time Clock (Footer.design)
+     - Searchable Command Palette Modal (⌘K / Ctrl+K)
+     ========================================================================== */
+
+  // 10A. Cursor-Tracked Spotlights (event delegation supports dynamic repo cells)
+  if (isFinePointer) {
+    document.addEventListener(
+      'pointermove',
+      (e) => {
+        const surface = e.target.closest('.spotlight-surface');
+        if (!surface) return;
+        const rect = surface.getBoundingClientRect();
+        surface.style.setProperty('--spot-x', `${(e.clientX - rect.left).toFixed(1)}px`);
+        surface.style.setProperty('--spot-y', `${(e.clientY - rect.top).toFixed(1)}px`);
+      },
+      { passive: true }
+    );
+  }
+
+  // 10B. Immediate Above-the-Fold Hero Reveal
+  const heroDisplay = document.querySelector('.hero-display');
+  if (heroDisplay) {
+    requestAnimationFrame(() => {
+      heroDisplay.classList.add('is-visible');
+    });
+  }
+
+  // 10C. Animated Metric Count-Up Telemetry
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const countEls = Array.from(document.querySelectorAll('[data-count-target]'));
+
+  function animateCounter(el) {
+    if (el.dataset.counted === 'true') return;
+    el.dataset.counted = 'true';
+
+    const targetVal = parseFloat(el.getAttribute('data-count-target'));
+    const decimals = parseInt(el.getAttribute('data-count-decimals') || '0', 10);
+    const sep = el.getAttribute('data-count-sep') || '';
+
+    if (Number.isNaN(targetVal) || prefersReducedMotion) return;
+
+    const duration = 1100;
+    const startTime = performance.now();
+
+    function formatValue(num) {
+      const fixed = num.toFixed(decimals);
+      if (!sep) return fixed;
+      const parts = fixed.split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+      return parts.join('.');
+    }
+
+    function frame(now) {
+      const elapsed = now - startTime;
+      const t = Math.min(1, elapsed / duration);
+      const eased = 1 - Math.pow(1 - t, 3); // EaseOutCubic
+      el.textContent = formatValue(targetVal * eased);
+      if (t < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        el.textContent = formatValue(targetVal);
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  if (countEls.length > 0 && 'IntersectionObserver' in window) {
+    const countObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animateCounter(entry.target);
+            countObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.35 }
+    );
+    countEls.forEach((el) => countObserver.observe(el));
+  }
+
+  // 10D. Interactive Project Filter Pills + Sliding Puck Glider
+  const filterPillsWrap = document.getElementById('project-filter-pills');
+  const filterGlider = document.getElementById('filter-glider');
+  const filterBtns = Array.from(document.querySelectorAll('.filter-pill-btn'));
+  const filterCountEl = document.getElementById('filter-result-count');
+
+  function positionFilterGlider(activeBtn) {
+    if (!filterGlider || !activeBtn || !filterPillsWrap) return;
+    filterGlider.style.width = `${activeBtn.offsetWidth}px`;
+    filterGlider.style.transform = `translateX(${activeBtn.offsetLeft}px)`;
+  }
+
+  const initialActiveFilter = filterBtns.find((b) => b.classList.contains('is-active'));
+  if (initialActiveFilter) {
+    requestAnimationFrame(() => positionFilterGlider(initialActiveFilter));
+    window.addEventListener('resize', () => {
+      const currentActive = filterBtns.find((b) => b.classList.contains('is-active'));
+      if (currentActive) positionFilterGlider(currentActive);
+    });
+  }
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter') || 'all';
+
+      filterBtns.forEach((b) => {
+        const isCurrent = b === btn;
+        b.classList.toggle('is-active', isCurrent);
+        b.setAttribute('aria-selected', String(isCurrent));
+      });
+      positionFilterGlider(btn);
+
+      let visibleCount = 0;
+      accordionItems.forEach((item) => {
+        const cats = (item.getAttribute('data-cats') || '').split(/\s+/);
+        const match = filter === 'all' || cats.includes(filter);
+        item.classList.toggle('is-hidden-filter', !match);
+        if (match) visibleCount += 1;
+      });
+
+      if (filterCountEl) {
+        filterCountEl.textContent = `Menampilkan ${visibleCount} Proyek`;
+      }
+    });
+  });
+
+  // 10E. Live WIB Clock (Jakarta / Malang / Sumenep Timezone)
+  const wibClockHero = document.getElementById('wib-clock-hero');
+  const wibClockFooter = document.getElementById('wib-clock-footer');
+  const wibFormatter = new Intl.DateTimeFormat('id-ID', {
+    timeZone: 'Asia/Jakarta',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  });
+
+  function updateWibClock() {
+    const nowStr = wibFormatter.format(new Date()).replace(/\./g, ':');
+    if (wibClockHero) wibClockHero.textContent = `${nowStr.slice(0, 5)} WIB`;
+    if (wibClockFooter) wibClockFooter.textContent = `${nowStr} WIB`;
+  }
+
+  if (wibClockHero || wibClockFooter) {
+    updateWibClock();
+    setInterval(updateWibClock, 1000);
+  }
+
+  // 10F. Command Palette Modal (⌘K / Ctrl+K)
+  const cmdOverlay = document.getElementById('cmd-modal-overlay');
+  const cmdSearchInput = document.getElementById('cmd-search-input');
+  const cmdList = document.getElementById('cmd-list');
+  const cmdTriggerBtn = document.getElementById('cmd-trigger-btn');
+  const footerCmdBtn = document.getElementById('footer-cmd-btn');
+  const cmdCloseBtn = document.getElementById('cmd-close-btn');
+
+  const COMMAND_ACTIONS = [
+    {
+      label: 'Buka & Cetak CV Format ATS',
+      tag: 'CV ATS',
+      keywords: 'cv ats resume pdf cetak print harvard',
+      run: () => openAtsModal(),
+    },
+    {
+      label: 'Unduh File Asli PDF CV ATS',
+      tag: 'DOWNLOAD',
+      keywords: 'download unduh pdf cv asli',
+      run: () => {
+        const a = document.createElement('a');
+        a.href = 'assets/docs/David_Timoteus_CV_ATS.pdf';
+        a.download = 'David_Timoteus_CV_ATS.pdf';
+        a.click();
+      },
+    },
+    {
+      label: 'Lompat ke 01. Pengalaman & Pendidikan',
+      tag: 'NAVIGASI',
+      keywords: 'pengalaman kerja magang inline vsga msib gamelab polinema ipk',
+      run: () => document.getElementById('pengalaman')?.scrollIntoView({ behavior: 'smooth' }),
+    },
+    {
+      label: 'Lompat ke 02. Indeks Proyek & Studi Kasus',
+      tag: 'NAVIGASI',
+      keywords: 'proyek project motaris lms pkpa myduit route wise jhar',
+      run: () => document.getElementById('proyek')?.scrollIntoView({ behavior: 'smooth' }),
+    },
+    {
+      label: 'Inspeksi Sertifikat BNSP Junior Web Developer',
+      tag: 'SERTIFIKAT',
+      keywords: 'sertifikat bnsp skkni lisensi profesi',
+      run: () => {
+        document.getElementById('sertifikasi')?.scrollIntoView({ behavior: 'smooth' });
+        document.querySelector('[data-cert-id="bnsp"]')?.click();
+      },
+    },
+    {
+      label: 'Inspeksi Sertifikat & Nilai VSGA Kominfo (Top 2)',
+      tag: 'SERTIFIKAT',
+      keywords: 'vsga kominfo top 2 capstone transkrip nilai',
+      run: () => {
+        document.getElementById('sertifikasi')?.scrollIntoView({ behavior: 'smooth' });
+        document.querySelector('[data-cert-id="vsga"]')?.click();
+      },
+    },
+    {
+      label: 'Inspeksi Skor Resmi ETS TOEIC (600)',
+      tag: 'SERTIFIKAT',
+      keywords: 'toeic english ets sertifikat bahasa inggris',
+      run: () => {
+        document.getElementById('sertifikasi')?.scrollIntoView({ behavior: 'smooth' });
+        document.querySelector('[data-cert-id="toeic"]')?.click();
+      },
+    },
+    {
+      label: 'Lompat ke 04. Matriks Keahlian & SKKNI',
+      tag: 'NAVIGASI',
+      keywords: 'skill keahlian tech stack nextjs laravel flutter mysql',
+      run: () => document.getElementById('keahlian')?.scrollIntoView({ behavior: 'smooth' }),
+    },
+    {
+      label: 'Salin Email Resmi (detimotea@gmail.com)',
+      tag: 'KONTAK',
+      keywords: 'email mail kontak detimotea salin copy',
+      run: () => {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText('detimotea@gmail.com').then(() => {
+            showToast('Tersalin: detimotea@gmail.com');
+          });
+        }
+      },
+    },
+    {
+      label: 'Ganti Tema Warna Crimson',
+      tag: 'TEMA',
+      keywords: 'tema warna theme obsidian velvet swiss dark light',
+      run: () => themeSwitchBtn?.click(),
+    },
+  ];
+
+  let cmdSelectedIdx = 0;
+  let filteredCmds = COMMAND_ACTIONS;
+
+  function renderCmdList(query = '') {
+    if (!cmdList) return;
+    const q = query.trim().toLowerCase();
+    filteredCmds = q
+      ? COMMAND_ACTIONS.filter(
+          (c) => c.label.toLowerCase().includes(q) || c.keywords.includes(q) || c.tag.toLowerCase().includes(q)
+        )
+      : COMMAND_ACTIONS;
+
+    if (cmdSelectedIdx >= filteredCmds.length) cmdSelectedIdx = 0;
+
+    if (filteredCmds.length === 0) {
+      cmdList.innerHTML =
+        '<div style="padding: 1.25rem; text-align: center; font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink-3);">Tidak ada aksi yang cocok.</div>';
+      return;
+    }
+
+    cmdList.innerHTML = filteredCmds
+      .map(
+        (cmd, idx) => `
+        <button type="button" class="cmd-item ${idx === cmdSelectedIdx ? 'is-selected' : ''}" data-cmd-idx="${idx}" role="option" aria-selected="${idx === cmdSelectedIdx}">
+          <span>${cmd.label}</span>
+          <span class="cmd-item-tag">${cmd.tag}</span>
+        </button>
+      `
+      )
+      .join('');
+
+    cmdList.querySelectorAll('.cmd-item').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const idx = Number(btn.getAttribute('data-cmd-idx'));
+        executeCmd(idx);
+      });
+    });
+  }
+
+  function executeCmd(idx) {
+    const item = filteredCmds[idx];
+    if (!item) return;
+    closeCmdModal();
+    item.run();
+  }
+
+  function openCmdModal() {
+    if (!cmdOverlay) return;
+    cmdOverlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    cmdSelectedIdx = 0;
+    if (cmdSearchInput) {
+      cmdSearchInput.value = '';
+      renderCmdList('');
+      setTimeout(() => cmdSearchInput.focus(), 40);
+    }
+  }
+
+  function closeCmdModal() {
+    if (!cmdOverlay) return;
+    cmdOverlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  if (cmdTriggerBtn) cmdTriggerBtn.addEventListener('click', openCmdModal);
+  if (footerCmdBtn) footerCmdBtn.addEventListener('click', openCmdModal);
+  if (cmdCloseBtn) cmdCloseBtn.addEventListener('click', closeCmdModal);
+  if (cmdOverlay) {
+    cmdOverlay.addEventListener('click', (e) => {
+      if (e.target === cmdOverlay) closeCmdModal();
+    });
+  }
+
+  if (cmdSearchInput) {
+    cmdSearchInput.addEventListener('input', () => {
+      cmdSelectedIdx = 0;
+      renderCmdList(cmdSearchInput.value);
+    });
+
+    cmdSearchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (filteredCmds.length > 0) {
+          cmdSelectedIdx = (cmdSelectedIdx + 1) % filteredCmds.length;
+          renderCmdList(cmdSearchInput.value);
+        }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (filteredCmds.length > 0) {
+          cmdSelectedIdx = (cmdSelectedIdx - 1 + filteredCmds.length) % filteredCmds.length;
+          renderCmdList(cmdSearchInput.value);
+        }
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        executeCmd(cmdSelectedIdx);
+      }
+    });
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      if (cmdOverlay?.classList.contains('is-open')) {
+        closeCmdModal();
+      } else {
+        openCmdModal();
+      }
+    } else if (e.key === 'Escape') {
+      closeCmdModal();
+    }
+  });
 })();

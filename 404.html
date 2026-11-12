@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="obsidian-crimson">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Halaman Tidak Ditemukan | David Timoteus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #080708;
+      --red: #e11d48;
+      --red-bright: #ff2e55;
+      --ink: #faf7f8;
+      --ink-2: #c2b6ba;
+      --ink-3: #7e7075;
+      --line: rgba(255, 240, 245, 0.1);
+      --font-display: 'Space Grotesk', system-ui, sans-serif;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 80% 15%, rgba(225, 29, 72, 0.22), transparent 52%),
+        radial-gradient(rgba(225, 29, 72, 0.08) 1px, transparent 1px),
+        var(--bg);
+      background-size: auto, 28px 28px, auto;
+      color: var(--ink);
+      font-family: var(--font-sans);
+      display: grid;
+      place-items: center;
+      padding: 1.5rem;
+    }
+    .frame-404 {
+      width: 100%;
+      max-width: 820px;
+      border: 1px solid var(--line);
+      background: rgba(14, 11, 13, 0.88);
+      backdrop-filter: blur(16px);
+    }
+    .bar-404 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1.5rem;
+      border-bottom: 1px solid var(--line);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--ink-3);
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--red-bright);
+      font-weight: 600;
+    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--red-bright);
+      box-shadow: 0 0 8px var(--red-bright);
+    }
+    .body-404 {
+      padding: clamp(2rem, 6vw, 4rem) clamp(1.5rem, 5vw, 3rem);
+    }
+    .num-404 {
+      font-family: var(--font-display);
+      font-size: clamp(4.5rem, 15vw, 9.5rem);
+      font-weight: 700;
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+      margin-bottom: 1rem;
+    }
+    .num-404 em {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--red-bright);
+    }
+    .title-404 {
+      font-family: var(--font-display);
+      font-size: clamp(1.35rem, 3vw, 2rem);
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .desc-404 {
+      color: var(--ink-2);
+      font-size: 0.96rem;
+      line-height: 1.7;
+      max-width: 54ch;
+      margin-bottom: 2rem;
+    }
+    .actions-404 {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.8rem 1.35rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border: 1px solid rgba(255, 240, 245, 0.2);
+      color: var(--ink);
+      transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+    }
+    .btn--red {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+    .btn--red:hover {
+      background: var(--red-bright);
+      transform: translateY(-2px);
+    }
+    .btn--outline:hover {
+      border-color: var(--red);
+      transform: translateY(-2px);
+    }
+    code.path-box {
+      font-family: var(--font-mono);
+      color: var(--red-bright);
+      background: rgba(225, 29, 72, 0.12);
+      padding: 0.15rem 0.45rem;
+      font-size: 0.86rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="frame-404">
+    <div class="bar-404">
+      <span class="status-badge"><span class="status-dot"></span> ROUTE_NOT_FOUND // STATUS 404</span>
+      <span>DAVID TIMOTEUS · PORTFOLIO SYSTEM</span>
+    </div>
+    <div class="body-404">
+      <div class="num-404">4<em>0</em>4</div>
+      <h1 class="title-404">Koordinat Halaman Tidak Ditemukan.</h1>
+      <p class="desc-404">
+        Rute <code class="path-box" id="bad-path">/unknown</code> belum terdaftar atau kemungkinan keliru penulisan huruf besar/kecil (URL GitHub Pages bersifat <em>case-sensitive</em> untuk <strong>/Portofolioku/</strong>).
+      </p>
+      <div class="actions-404">
+        <a id="home-link" href="/Portofolioku/" class="btn btn--red">
+          <span>Kembali ke Beranda Portofolio</span>
+          <span aria-hidden="true">→</span>
+        </a>
+        <a id="proyek-link" href="/Portofolioku/#proyek" class="btn btn--outline">
+          <span>Lihat Studi Kasus</span>
+        </a>
+        <a id="kontak-link" href="/Portofolioku/#kontak" class="btn btn--outline">
+          <span>Hubungi &amp; CV ATS</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var badPathEl = document.getElementById('bad-path');
+      if (badPathEl) {
+        badPathEl.textContent = window.location.pathname;
+      }
+      // Adjust base link dynamically if running locally on root localhost
+      var isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      var base = isLocal ? '/' : '/Portofolioku/';
+      document.getElementById('home-link').href = base;
+      document.getElementById('proyek-link').href = base + '#proyek';
+      document.getElementById('kontak-link').href = base + '#kontak';
+    })();
+  </script>
+</body>
+</html>
+
